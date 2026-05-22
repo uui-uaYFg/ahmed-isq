@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ahmed | ISQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Tajawal:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --purple-dark: #2d0045;
+    --purple-mid: #6b21a8;
+    --purple-bright: #a855f7;
+    --purple-glow: #c084fc;
+    --purple-lightning: #d8b4fe;
+    --light: #f0e6ff;
+  }
+  html, body {
+    width: 100%; height: 100%;
+    background: #0a0010;
+    font-family: 'Tajawal', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+  .bg-image {
+    position: fixed; inset: 0; z-index: 0;
+    background-image: url('bg.jpg');
+    background-size: cover;
+    background-position: center center;
+  }
+  .bg-overlay {
+    position: fixed; inset: 0; z-index: 1;
+    background: linear-gradient(180deg,
+      rgba(10,0,20,0.5) 0%, rgba(10,0,20,0.25) 30%,
+      rgba(10,0,20,0.5) 70%, rgba(10,0,20,0.88) 100%);
+  }
+  .bg-texture {
+    position: fixed; inset: 0; z-index: 2;
+    background-image: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px);
+    pointer-events: none;
+  }
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 3; height: 3px;
+    background: linear-gradient(90deg, transparent 0%, #6b21a8 20%, #c084fc 50%, #6b21a8 80%, transparent 100%);
+    box-shadow: 0 0 20px rgba(168,85,247,0.8), 0 0 60px rgba(168,85,247,0.3);
+  }
+  .bottom-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 3; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, #6b21a8 30%, #a855f7 50%, #6b21a8 70%, transparent 100%);
+    box-shadow: 0 0 15px rgba(168,85,247,0.6);
+  }
+  .container {
+    position: relative; z-index: 10;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 20px 50px;
+  }
+  .guts-wrap {
+    position: relative; width: 140px; height: 140px;
+    margin-bottom: 20px; flex-shrink: 0;
+  }
+  .guts-glow {
+    position: absolute; inset: -14px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%);
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  @keyframes glow-pulse {
+    0%,100% { opacity:0.6; transform:scale(1); }
+    50% { opacity:1; transform:scale(1.08); }
+  }
+  .guts-ring {
+    position: absolute; inset: -5px; border-radius: 50%;
+    background: conic-gradient(from 0deg, transparent 0%, #6b21a8 20%, #c084fc 50%, #6b21a8 80%, transparent 100%);
+    animation: spin 5s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .guts-ring-inner {
+    position: absolute; inset: 2px; border-radius: 50%;
+    background: #0a0010;
+  }
+  .guts-img {
+    position: absolute; inset: 5px;
+    width: calc(100% - 10px); height: calc(100% - 10px);
+    border-radius: 50%;
+    object-fit: cover; object-position: center 10%;
+    background: #0a0010;
+  }
+  .name-main {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(26px, 7vw, 52px); font-weight: 900;
+    color: var(--light); letter-spacing: 3px; line-height: 1.1;
+    text-align: center;
+    text-shadow: 0 0 20px var(--purple-bright), 0 0 60px rgba(168,85,247,0.6), 2px 2px 0 var(--purple-dark);
+    animation: flicker 10s ease-in-out infinite; margin-bottom: 6px;
+  }
+  .name-pipe { color: var(--purple-bright); opacity: 0.7; margin: 0 8px; }
+  .name-isq { color: var(--purple-glow); text-shadow: 0 0 15px var(--purple-glow), 0 0 50px rgba(192,132,252,0.7); }
+  @keyframes flicker {
+    0%,92%,100%{opacity:1} 93%{opacity:0.75} 94%{opacity:1} 96%{opacity:0.6} 97%{opacity:1}
+  }
+  .quote {
+    font-size: 12px; color: rgba(192,132,252,0.55);
+    letter-spacing: 5px; text-align: center;
+    margin-top: 4px; margin-bottom: 22px; font-weight: 300;
+  }
+  .divider {
+    width: 280px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--purple-mid), var(--purple-lightning), var(--purple-mid), transparent);
+    margin: 0 auto 22px; box-shadow: 0 0 8px rgba(168,85,247,0.4); position: relative;
+  }
+  .divider::before,.divider::after {
+    content:'✦'; position:absolute; top:50%; transform:translateY(-50%);
+    color:var(--purple-lightning); font-size:9px; opacity:0.6;
+  }
+  .divider::before{left:20px} .divider::after{right:20px}
+  .links-stack { display:flex; flex-direction:column; gap:10px; width:100%; max-width:320px; }
+  .link-card {
+    position:relative; display:flex; align-items:center; gap:14px;
+    padding:13px 20px; background:rgba(15,0,30,0.6); border:1px solid rgba(107,33,168,0.3);
+    text-decoration:none; color:var(--light); font-size:14px; font-weight:700; letter-spacing:1px;
+    transition:all 0.3s ease; overflow:hidden; backdrop-filter:blur(12px);
+    cursor:pointer; user-select:none; -webkit-tap-highlight-color:transparent; direction:ltr;
+  }
+  .link-card::after {
+    content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,var(--purple-bright),transparent);
+    transform:scaleX(0); transition:transform 0.3s ease;
+  }
+  .link-card:hover,.link-card:active {
+    border-color:var(--purple-mid); background:rgba(30,0,55,0.85);
+    box-shadow:0 0 22px rgba(107,33,168,0.4); transform:translateX(-3px); color:#fff;
+  }
+  .link-card:hover::after,.link-card:active::after{transform:scaleX(1)}
+  .link-card:active{transform:scale(0.97)}
+  .icon-box {
+    width:36px; height:36px; display:flex; align-items:center; justify-content:center;
+    background:rgba(107,33,168,0.25); border:1px solid rgba(168,85,247,0.3);
+    border-radius:8px; flex-shrink:0;
+  }
+  .icon-box svg{width:20px;height:20px;fill:var(--purple-glow);filter:drop-shadow(0 0 4px rgba(192,132,252,0.6))}
+  .link-text{display:flex;flex-direction:column;gap:1px;text-align:left}
+  .link-name{font-size:14px;font-weight:700;color:var(--light)}
+  .link-handle{font-size:11px;color:rgba(192,132,252,0.6);font-weight:300;letter-spacing:1px}
+  .link-arrow{margin-right:auto;color:rgba(168,85,247,0.4);font-size:14px;transition:transform 0.3s,color 0.3s}
+  .link-card:hover .link-arrow{transform:translateX(3px);color:var(--purple-bright)}
+  .corner{position:fixed;width:48px;height:48px;opacity:0.18;z-index:5}
+  .corner svg{width:100%;height:100%}
+  .corner.tl{top:10px;left:10px}.corner.tr{top:10px;right:10px;transform:scaleX(-1)}
+  .corner.bl{bottom:10px;left:10px;transform:scaleY(-1)}.corner.br{bottom:10px;right:10px;transform:scale(-1)}
+  .sparks{position:fixed;inset:0;z-index:4;pointer-events:none}
+  .spark{position:absolute;width:2px;height:2px;background:var(--purple-lightning);border-radius:50%;animation:rise linear infinite;opacity:0}
+  @keyframes rise{
+    0%{transform:translateY(0) translateX(0);opacity:0}10%{opacity:0.8}90%{opacity:0.2}
+    100%{transform:translateY(-120vh) translateX(var(--drift));opacity:0}
+  }
+  .anim{animation:entrance 0.8s ease both}
+  .d1{animation-delay:.05s}.d2{animation-delay:.2s}.d3{animation-delay:.32s}.d4{animation-delay:.42s}
+  .d5{animation-delay:.52s}.d6{animation-delay:.62s}.d7{animation-delay:.72s}
+  @keyframes entrance{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+  .toast{
+    position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:rgba(107,33,168,0.92);color:#fff;padding:10px 24px;
+    font-family:'Tajawal',sans-serif;font-size:13px;letter-spacing:2px;
+    border:1px solid var(--purple-bright);box-shadow:0 0 20px rgba(168,85,247,0.5);
+    opacity:0;transition:all 0.3s ease;pointer-events:none;z-index:999;white-space:nowrap;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="bg-image"></div>
+<div class="bg-overlay"></div>
+<div class="bg-texture"></div>
+<div class="top-bar"></div>
+<div class="bottom-bar"></div>
+<div class="sparks" id="sparks"></div>
+<div class="corner tl"><svg viewBox="0 0 50 50" fill="none"><path d="M0 0 L35 0 L35 3 L3 3 L3 35 L0 35 Z" fill="#a855f7"/><path d="M8 0 L8 8 L0 8" stroke="#a855f7" stroke-width="0.8" fill="none"/></svg></div>
+<div class="corner tr"><svg viewBox="0 0 50 50" fill="none"><path d="M0 0 L35 0 L35 3 L3 3 L3 35 L0 35 Z" fill="#a855f7"/><path d="M8 0 L8 8 L0 8" stroke="#a855f7" stroke-width="0.8" fill="none"/></svg></div>
+<div class="corner bl"><svg viewBox="0 0 50 50" fill="none"><path d="M0 0 L35 0 L35 3 L3 3 L3 35 L0 35 Z" fill="#a855f7"/><path d="M8 0 L8 8 L0 8" stroke="#a855f7" stroke-width="0.8" fill="none"/></svg></div>
+<div class="corner br"><svg viewBox="0 0 50 50" fill="none"><path d="M0 0 L35 0 L35 3 L3 3 L3 35 L0 35 Z" fill="#a855f7"/><path d="M8 0 L8 8 L0 8" stroke="#a855f7" stroke-width="0.8" fill="none"/></svg></div>
+<div class="container">
+  <div class="guts-wrap anim d1">
+    <div class="guts-glow"></div>
+    <div class="guts-ring"></div>
+    <div class="guts-ring-inner"></div>
+    <img class="guts-img" src="guts.png" alt="Guts">
+  </div>
+  <div class="name-main anim d2">Ahmed<span class="name-pipe">|</span><span class="name-isq">ISQ</span></div>
+  <div class="quote anim d3">الدنيا زائلة فكن لطيفاً</div>
+  <div class="divider anim d3"></div>
+  <div class="links-stack">
+    <a class="link-card anim d4" href="https://t.me/ISQ_00" target="_blank" rel="noopener noreferrer">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.96 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></div>
+      <div class="link-text"><span class="link-name">Telegram</span><span class="link-handle">@ISQ_00</span></div>
+      <span class="link-arrow">›</span>
+    </a>
+    <a class="link-card anim d5" href="https://www.instagram.com/mvve.12?igsh=MTRoMDE0Y25qZmg0cQ==" target="_blank" rel="noopener noreferrer">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg></div>
+      <div class="link-text"><span class="link-name">Instagram</span><span class="link-handle">@mvve.12</span></div>
+      <span class="link-arrow">›</span>
+    </a>
+    <a class="link-card anim d6" href="https://www.tiktok.com/@mvve_" target="_blank" rel="noopener noreferrer">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg></div>
+      <div class="link-text"><span class="link-name">TikTok</span><span class="link-handle">@mvve_</span></div>
+      <span class="link-arrow">›</span>
+    </a>
+    <a class="link-card anim d7" href="#" onclick="copyDiscord(event)">
+      <div class="icon-box"><svg viewBox="0 0 24 24"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg></div>
+      <div class="link-text"><span class="link-name">Discord</span><span class="link-handle">t7tn</span></div>
+      <span class="link-arrow">›</span>
+    </a>
+  </div>
+</div>
+<div class="toast" id="toast">تم نسخ اليوزر ✓  t7tn</div>
+<script>
+  const sc=document.getElementById('sparks');
+  for(let i=0;i<20;i++){const s=document.createElement('div');s.className='spark';s.style.cssText=`left:${Math.random()*100}%;bottom:-5px;animation-duration:${7+Math.random()*10}s;animation-delay:${Math.random()*14}s;--drift:${(Math.random()-.5)*60}px;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;`;sc.appendChild(s);}
+  function copyDiscord(e){e.preventDefault();navigator.clipboard.writeText('t7tn').then(()=>{const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);});}
+  document.addEventListener('mousemove',(e)=>{const d=document.createElement('div');d.style.cssText=`position:fixed;pointer-events:none;z-index:999;width:3px;height:3px;border-radius:50%;background:rgba(168,85,247,0.7);left:${e.clientX-1.5}px;top:${e.clientY-1.5}px;transition:opacity 0.4s;box-shadow:0 0 6px #a855f7;`;document.body.appendChild(d);setTimeout(()=>{d.style.opacity='0';setTimeout(()=>d.remove(),400);},80);});
+</script>
+</body>
+</html>
